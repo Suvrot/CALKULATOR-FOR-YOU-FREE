@@ -281,12 +281,14 @@ def run_bot():
         logger.warning("[BOT-THREAD] Event loop закрыт")
 
 
-if __name__ == "__main__":
-    # Запускаем бот в демон-потоке (завершится вместе с Flask)
-    bot_thread = threading.Thread(target=run_bot, daemon=True, name="TelegramBot")
-    bot_thread.start()
-    logger.info("[WEB] Telegram-бот запущен в фоновом потоке")
+# ── Запускаем бота при импорте модуля (работает и с gunicorn, и напрямую) ─────
+# ВАЖНО: этот код выполняется при любом запуске, в том числе через gunicorn,
+# поэтому бот стартует вместе с Flask-воркером автоматически.
+bot_thread = threading.Thread(target=run_bot, daemon=True, name="TelegramBot")
+bot_thread.start()
+logger.info("[WEB] Telegram-бот запущен в фоновом потоке")
 
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     logger.info("[WEB] Flask стартует на 0.0.0.0:%d", port)
     # debug=False обязателен в продакшене!
