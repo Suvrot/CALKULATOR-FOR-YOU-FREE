@@ -20,5 +20,7 @@ Telegram-бот-калькулятор с Flask веб-панелью админ
 └── .gitignore
 ```
 
+Для проверки
 
 
+• Тест бота в TG: @testbotsava44_bot
